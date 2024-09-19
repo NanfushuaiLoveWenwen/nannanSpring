@@ -1,7 +1,12 @@
 package com.test.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     int id = 1;
 
