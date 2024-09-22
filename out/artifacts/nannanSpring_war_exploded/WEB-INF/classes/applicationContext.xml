@@ -47,4 +47,50 @@
         <property type="String" name="prefix" value="/jsp/"/>
         <property type="String" name="suffix" value=".jsp"/>
     </bean>
+
+<!--    <bean id="dataSource" class="com.nannan.jdbc.datasource.SingleConnectionDataSource">-->
+<!--        <property type="String" name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>-->
+<!--        <property type="String" name="url" value="jdbc:sqlserver://localhost:1433;databasename=DEMO;"/>-->
+<!--        <property type="String" name="username" value="sa"/>-->
+<!--        <property type="String" name="password" value="Sql2016"/>-->
+<!--    </bean>-->
+
+    <bean id="jdbcTemplate" class="com.nannan.jdbc.core.JdbcTemplate" >
+        <property type="javax.sql.DataSource" name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="com.nannan.jdbc.pool.PooledDataSource">
+        <property name="url" value="jdbc:sqlserver://localhost:1433;databasename=DEMO"/>
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="Sql2016"/>
+        <property type="int" name="initialSize" value="3"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="com.nannan.batis.DefaultSqlSessionFactory" init-method="init">
+        <property type="String" name="mapperLocations" value="mapper"></property>
+    </bean>
+
+    <bean id="autoProxyCreator" class="com.nannan.aop.BeanNameAutoProxyCreator" >
+        <property type="String" name="pattern" value="action*" />
+        <property type="String" name="interceptorName" value="advisor" />
+    </bean>
+
+    <bean id="action1" class="com.test.service.aop.ActionImpl1" />
+    <bean id="action2" class="com.test.service.aop.ActionImpl2" />
+    <bean id="action3" class="com.test.service.aop.ActionImpl3" />
+
+    <bena id="beforeAdvice" class="com.test.service.aop.MyBeforeAdvice" />
+
+    <bean id="advisor" class="com.nannan.aop.NameMatchMethodPointcutAdvisor">
+        <property type="com.nannan.aop.Advice" name="advice" ref="beforeAdvice"/>
+        <property type="java.lang.String" name="mappedName" value="do*"/>
+    </bean>
+
+<!--    <bean id="action" class="com.nannan.aop.ProxyFactoryBean">-->
+<!--        <property type="String" name="interceptorName" value="advisor" />-->
+<!--        <property type="java.lang.Object" name="target" ref="realaction"/>-->
+<!--    </bean>-->
+
+
 </beans>

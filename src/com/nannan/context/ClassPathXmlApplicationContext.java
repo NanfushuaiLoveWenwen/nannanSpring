@@ -84,12 +84,11 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext{
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             }
+            // 找到所有实现了beanPostProcessor的bean
             if (BeanPostProcessor.class.isAssignableFrom(clz)) {
                 try {
-                    this.beanFactory.addBeanPostProcessor((BeanPostProcessor) clz.newInstance());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                    this.beanFactory.addBeanPostProcessor((BeanPostProcessor) this.beanFactory.getBean(bdName));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

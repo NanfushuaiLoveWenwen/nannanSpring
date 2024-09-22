@@ -24,6 +24,7 @@ public class PooledDataSource implements DataSource {
     private int initialSize = 2;
     private Properties connectionProperties;
 
+
     private void initPool(){
         this.connections = new ArrayList<>(initialSize);
         try{
@@ -38,6 +39,14 @@ public class PooledDataSource implements DataSource {
             e.printStackTrace();
         }
     }
+    public int getInitialSize() {
+        return initialSize;
+    }
+
+    public void setInitialSize(int initialSize) {
+        this.initialSize = initialSize;
+    }
+
 
     protected Connection getConnectionFromDriver(String userName, String password) throws SQLException{
         Properties properties = new Properties();
